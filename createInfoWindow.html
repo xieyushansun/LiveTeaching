@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" href="css/layui/css/layui.css" media="all">
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="css/layui/layui.js"></script>
+    </head>
+    <body>
+        <div class="layui-form" style="margin-top: 20px;">
+            <input id="title" type="text" name="title" required lay-verify="required" placeholder="请输入直播标题" autocomplete="off" class="layui-input" style="margin-left: 110px; margin-bottom:20px;width: 420px;">
+            <input id="teachername" type="text" name="teachername" required lay-verify="required" placeholder="请输入教师名称" autocomplete="off" class="layui-input" style="margin-left: 110px; width: 420px;">
+        </div>
+    </body>
+    <script>
+        var callbackdata = function () {
+            var title = document.getElementById("title").value;
+            var teachername = document.getElementById("teachername").value;
+            allInfo = {"title": title, "teachername": teachername};
+            return allInfo;
+        }
+    </script>
+</html>

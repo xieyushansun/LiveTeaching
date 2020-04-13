@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+        <script src="../js/jquery-3.3.1.min.js"></script>
+        <script src="../layui/layui.js"></script>
+    </head>
+    <body>
+        <div class="layui-form" style="margin-top: 20px;">
+            <input id="title" type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input" style="margin-left: 110px; width: 420px;">
+            <div class="layui-input-block">
+                <div class="time-choose">
+                    <div style="display: inline-block">
+                        <h3 style="color: #ffa05e; margin: 10px">- 开始 -</h3>
+                        <input type="text" placeholder="请选择作业起始日期" class="layui-input" id="newDutyStartDay" autocomplete="off" style="width: 200px;  float: left">
+                        <input type="text" placeholder="请选择作业起始时间" class="layui-input" id="newDutyStartTime" autocomplete="off" style="width: 200px; float: left; margin-left: 20px;">
+                    </div>
+                    <div>
+                        <h3 style="color: #2a9fff; margin: 10px;">- 结束 -</h3>
+                        <input type="text" placeholder="请选择作业结束日期" class="layui-input" id="newDutyEndDay" autocomplete="off" style="width: 200px; float: left">
+                        <input type="text" placeholder="请选择作业结束时间" class="layui-input" id="newDutyEndTime" autocomplete="off" style="width: 200px; float: left; margin-left: 20px;">
+                    </div>    
+                </div>
+                
+                <br><br><br><br>
+                <br><br><br><br>
+                <div class="layui-row">
+                    <div class="layui-col-md6 layui-col-xs4">
+                        <input type="checkbox" name="allday" id="allday" lay-filter="allday" title="全天" >
+                    </div>
+                    <div class="layui-col-md6 layui-col-xs8">
+                        <div class = "layui-form-item">
+                            <div class="layui-input-block" >
+                                <input type="radio" name="homeworkorpractice" lay-filter="homeworkorpractice" value="作业" title="作业" checked>   <!--默认生成作业-->
+                                <input type="radio" name="homeworkorpractice" lay-filter="homeworkorpractice" value="练习" title="练习" >
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        var allday = false; //默认非全天
+        var homeworkorpractice = "作业"; //默认是作业
+        // layui.use(['laydate', 'form'], function(){
+        //     // var startday = layui.laydate;
+        //     // var endday = layui.laydate;
+        //     // var starttime = layui.laydate;
+        //     // var endtime = layui.laydate;
+        //     // //执行一个laydate实例
+        //     // startday.render({
+        //     //     elem: '#newDutyStartDay' //指定元素
+        //     // });
+        //     // endday.render({
+        //     //     elem: '#newDutyEndDay'
+        //     // });
+        //     // starttime.render({
+        //     //     elem:'#newDutyStartTime',
+        //     //     type:'time'
+        //     // });
+        //     // endtime.render({
+        //     //     elem:'#newDutyEndTime',
+        //     //     type:'time'
+        //     // })
+        // });
+        layui.use(['form', 'laydate'], function () {
+            var form = layui.form;//表单
+            var newDutyStartTime = $("#newDutyStartTime");
+            var newDutyEndTime = $("#newDutyEndTime");
+            var newDutyStartDay = $("#newDutyStartDay");
+            var newDutyEndDay = $("#newDutyEndDay");
+            //监听复选框
+            form.on('checkbox(allday)', function (data) {
+                if (data.elem.checked) {
+                    newDutyStartTime.hide();
+                    newDutyEndTime.hide();
+                    allday = true;
+                } else {
+                    allday = false;
+                    newDutyStartTime.show();
+                    newDutyEndTime.show();
+                }
+            });
+            form.on('radio(homeworkorpractice)', function(data){
+                homeworkorpractice = data.value; //单选框选择作业或者练习
+                if (homeworkorpractice == '练习') {
+                    newDutyStartDay.attr('disabled', true).addClass("layui-disabled");
+                    newDutyStartTime.attr('disabled', true).addClass("layui-disabled");
+                    newDutyEndDay.attr('disabled', true).addClass("layui-disabled");
+                    newDutyEndTime.attr('disabled', true).addClass("layui-disabled"); 
+                    // $(".time-choose").hide();
+                    $("#allday").attr("disabled", true);
+                } else {
+                    newDutyStartDay.attr('disabled', false).removeClass("layui-disabled");
+                    newDutyStartTime.attr('disabled', false).removeClass("layui-disabled");
+                    newDutyEndDay.attr('disabled', false).removeClass("layui-disabled");
+                    newDutyEndTime.attr('disabled', false).removeClass("layui-disabled");    
+                    // $(".time-choose").show();
+                    $("#allday").attr("disabled", false);
+                }
+                form.render();
+            });
+
+            // form.on('select', function(data){
+            //     classInfo = data.value;
+            // });
+            //
+            // var courses = $('#teachercourse', parent.document).val(); //获取到下拉框内容
+            // let selector = "select[name=class]";
+            // $(selector).empty();
+            // courses = courses.split("%");
+            // if(courses){
+            //     var optionStart = $("<option>").val("").text("请选择班级");
+            //     $(selector).append(optionStart);
+            //     for(let i = 0, len = courses.length; i < len; i++){
+            //         var option = $("<option>").val(courses[i]).text(courses[i]);
+            //         $(selector).append(option);
+            //     }
+            // }
+
+            form.render();
+            let laydate = layui.laydate;
+            laydate.render({
+                elem: '#newDutyStartDay', // 开始日期
+                done: function (value, date, endDate) {
+                    laydate.render({
+                        elem: '#newDutyEndDay',
+                        min: value
+                    });
+                }
+            });
+            laydate.render({
+                elem: '#newDutyEndDay', //截止日期
+                done: function(value, date, endDate) {
+                    laydate.render({
+                        elem: '#newDutyStartDay',
+                        max: value
+                    });
+                }
+            });
+            laydate.render({
+                elem: '#newDutyEndDay',
+                type: 'time'
+            });
+            laydate.render({
+                elem: '#newDutyStartTime',
+                type: 'time'
+            });
+            laydate.render({
+                elem: '#newDutyEndTime',
+                type: 'time'
+            });
+
+        });
+
+        var callbackdata = function () {
+            var startday = document.getElementById("newDutyStartDay").value;
+            var endday = document.getElementById("newDutyEndDay").value;
+            var title = document.getElementById("title").value;
+            if (title === null){
+                title = "无标题"; //如果标题为空，就设置标题为默认的 "无标题"
+            }
+            var starttime;
+            var endtime;
+            var allInfo;
+            if (homeworkorpractice === "作业"){
+                if (allday === false){ //如果是非全天
+                    starttime = document.getElementById("newDutyStartTime").value;
+                    endtime = document.getElementById("newDutyEndTime").value;
+                    allInfo = {"title": title, "startday": startday, "endday": endday, "starttime": starttime,
+                        "endtime": endtime, "allday": allday, "homeworkorpractice": homeworkorpractice};
+                }
+                else{
+                    allInfo = {"title": title, "startday": startday, "endday": endday, "allday": allday,
+                        "homeworkorpractice": homeworkorpractice};
+                }
+            }else if (homeworkorpractice === "练习"){
+                allInfo = {"title": title, "homeworkorpractice": homeworkorpractice};
+            }
+            return allInfo;
+        }
+    </script>
+</html>

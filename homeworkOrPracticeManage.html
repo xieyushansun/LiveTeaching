@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>作业或练习题管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all">
+</head>
+<body>
+<div class="layui-form" style="margin-top: 20px;">
+    <div class="layui-row">
+        <div class="layui-col-md4">
+            <input id="keyword" type="text" required lay-verify="required" placeholder="请输入题集关键字进行查找" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-col-md4">
+            <button class="layui-btn" id="find" style="margin-left: 100px;">查找</button>
+        </div>
+        <div class="layui-col-md4">
+            <div class = "layui-form-item">
+                <div class="layui-input-block">
+                    <input type="radio" name="homeworkorpractice" lay-filter="homeworkorpractice" value="homework" title="作业" checked>   <!--默认显示作业列表-->
+                    <input type="radio" name="homeworkorpractice" lay-filter="homeworkorpractice" value="practice" title="练习" >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <table id = "demo"  lay-filter = "test"></table>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="assign">布置</a>
+        <a class="layui-btn layui-btn-xs" lay-event="hORPDetail">题集详情</a>
+        <a class="layui-btn layui-btn-xs" lay-event="assignDetail">布置详情</a>
+        <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+    </script>
+
+    <input type="hidden" class="layui-input"  autocomplete="off" id="id">
+    <input type="hidden" class="layui-input"  autocomplete="off" id="homeworkOrPractice">
+    <input type="hidden" class="layui-input"  autocomplete="off" id="teachercourse">
+    <input type="hidden" class="layui-input"  autocomplete="off" id="choosedproblemid">  <!--选择了的题集id-->
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../layui/layui.all.js"></script>
+    <script src="../js/homeworkOrPracticeManage.js"></script>
+</body>
+</html>

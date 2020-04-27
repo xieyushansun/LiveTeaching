@@ -8,6 +8,7 @@
     String locIP=request.getLocalAddr();
 %>
 
+
 <%
     String username = request.getParameter("username");
     String meetingID = request.getParameter("meetingID");
